@@ -1,0 +1,5 @@
+# pack-refs with: peeled
+09efadc7f20ae018c59a681cb7444dc3c0b6cb34 refs/heads/admin-uf-user
+da61ac85c58c08aa54f74059aac7cc5825e55194 refs/heads/mailman-uf-user
+46a4b25dd8e50d0995e54009950bcb50a50873a3 refs/heads/master
+2c98f2d7bdfc4503adc6eb6485d5748c425706e7 refs/heads/social

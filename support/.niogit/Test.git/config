@@ -1,0 +1,13 @@
+[core]
+	symlinks = false
+	repositoryformatversion = 0
+	filemode = true
+	bare = true
+	logallrefupdates = false
+	precomposeunicode = true
+[remote "origin"]
+	url = file:///Users/khua/Downloads/work/demo-refresh/brms-demo/.niogit/Test.git
+	fetch = +refs/heads/*:refs/heads/*
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
