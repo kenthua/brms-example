@@ -35,6 +35,6 @@ JBoss BRMS Rule Execution Server and Simple Servlet Example
     * Once executed will run through rules written for the data
 
 
-0. Refreshed for BPM Suite 6.1
+0. Refreshed for BRMS/BPM Suite 6.1
 
 Don't expect anything in return, watch the EAP system out (server.log) for messages of rules being executed.
