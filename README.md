@@ -1,5 +1,5 @@
-Simple Servlet Rule Execution
-=============================
+JBoss BRMS Rule Execution Server and Simple Servlet Example
+===========================================================
 
 0. copy .niogit from the support folder to EAP_HOME/bin
 
