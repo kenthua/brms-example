@@ -22,6 +22,7 @@ JBoss BRMS Rule Execution Server and Simple Servlet Example
       * If you click on the right arrow of "Test", you can see the endpoint:
         * http://localhost:8080/kie-server/services/rest/server/containers/Test
   * Use the brms-rule-server/RuleExecutionXmlPayloadGen POJO to generate your payload
+    * https://github.com/kenthua/brms-example/blob/master/project/brms-rule-service/README.md 
   * Using your favorite REST client, call out to the new container and see what response you get back
   * REST Info
     * HTTP POST
