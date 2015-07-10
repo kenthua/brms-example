@@ -23,6 +23,9 @@ JBoss BRMS Rule Execution Server and Simple Servlet Example
         * http://localhost:8080/kie-server/services/rest/server/containers/Test
   * Use the brms-rule-server/RuleExecutionXmlPayloadGen POJO to generate your payload
   * Using your favorite REST client, call out to the new container and see what response you get back
+  * REST Info
+    * HTTP POST
+    * Header: Content-Type = application/xml
 
 0. Alternate: Build the project as a war and add to the EAP_HOME/standalone/deployments folder
   * Build & Deploy rule project
