@@ -40,9 +40,9 @@ Sample CoolStore Execution Server payload
 	  </insert>
 	  <insert out-identifier="shoppingCartItem" return-object="true" entry-point="DEFAULT">
 	    <com.redhat.coolstore.ShoppingCartItem>
-	      <itemId>123</itemId>
-	      <name>Test</name>
-	      <price>10.0</price>
+	      <itemId>329299</itemId>
+	      <name>Red Fedora</name>
+	      <price>34.99</price>
 	      <promoSavings>0.0</promoSavings>
 	      <quantity>1</quantity>
 	      <shoppingCart reference="../../../insert/com.redhat.coolstore.ShoppingCart"/>
@@ -50,9 +50,9 @@ Sample CoolStore Execution Server payload
 	  </insert>
 	  <insert out-identifier="shoppingCartItem" return-object="true" entry-point="DEFAULT">
 	    <com.redhat.coolstore.ShoppingCartItem>
-	      <itemId>321</itemId>
-	      <name>Test2</name>
-	      <price>30.0</price>
+	      <itemId>329199</itemId>
+	      <name>Forge Laptop Sticker</name>
+	      <price>8.5</price>
 	      <promoSavings>0.0</promoSavings>
 	      <quantity>1</quantity>
 	      <shoppingCart reference="../../../insert/com.redhat.coolstore.ShoppingCart"/>
