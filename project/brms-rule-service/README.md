@@ -26,3 +26,40 @@ Take the output string and use it in your desired REST client (i.e. SOAPUI, Chro
 	  <fire-all-rules/>
 	</batch-execution>
 
+Sample CoolStore Execution Server payload
+
+	<batch-execution>
+	  <insert out-identifier="shoppingCart" return-object="true" entry-point="DEFAULT">
+	    <com.redhat.coolstore.ShoppingCart>
+	      <cartItemPromoSavings>0.0</cartItemPromoSavings>
+	      <cartItemTotal>0.0</cartItemTotal>
+	      <cartTotal>0.0</cartTotal>
+	      <shippingPromoSavings>0.0</shippingPromoSavings>
+	      <shippingTotal>0.0</shippingTotal>
+	    </com.redhat.coolstore.ShoppingCart>
+	  </insert>
+	  <insert out-identifier="shoppingCartItem" return-object="true" entry-point="DEFAULT">
+	    <com.redhat.coolstore.ShoppingCartItem>
+	      <itemId>123</itemId>
+	      <name>Test</name>
+	      <price>10.0</price>
+	      <promoSavings>0.0</promoSavings>
+	      <quantity>1</quantity>
+	      <shoppingCart reference="../../../insert/com.redhat.coolstore.ShoppingCart"/>
+	    </com.redhat.coolstore.ShoppingCartItem>
+	  </insert>
+	  <insert out-identifier="shoppingCartItem" return-object="true" entry-point="DEFAULT">
+	    <com.redhat.coolstore.ShoppingCartItem>
+	      <itemId>321</itemId>
+	      <name>Test2</name>
+	      <price>30.0</price>
+	      <promoSavings>0.0</promoSavings>
+	      <quantity>1</quantity>
+	      <shoppingCart reference="../../../insert/com.redhat.coolstore.ShoppingCart"/>
+	    </com.redhat.coolstore.ShoppingCartItem>
+	  </insert>
+	  <start-process processId="com.redhat.coolstore.PriceProcess" out-identifier="process-out"/>
+	  <fire-all-rules/>
+	</batch-execution>
+
+
