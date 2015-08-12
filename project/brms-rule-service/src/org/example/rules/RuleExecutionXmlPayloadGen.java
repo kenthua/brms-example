@@ -13,7 +13,7 @@ import com.redhat.test.brmstest.fact.Account;
 import com.redhat.test.brmstest.fact.Customer;
 
 public class RuleExecutionXmlPayloadGen {
-	public static void marshallxml() {
+	public static String marshallxml() {
 		
 		// Create your object here
 		Account a = new Account();
@@ -36,7 +36,7 @@ public class RuleExecutionXmlPayloadGen {
 		InsertObjectCommand iocCustomer = new InsertObjectCommand(c);
 		InsertObjectCommand iocAccount = new InsertObjectCommand(a);
 		
-		// Set ouput name if desired
+		// Set output name if desired
 		iocCustomer.setOutIdentifier("customer");
 		iocAccount.setOutIdentifier("account");
 		
@@ -48,6 +48,11 @@ public class RuleExecutionXmlPayloadGen {
 		// Generate XML payload string
 		String result = BatchExecutionHelper.newXStreamMarshaller().toXML(bec);
 		System.out.println(result);
+		
+		String resultJson = BatchExecutionHelper.newJSonMarshaller().toXML(bec);
+		System.out.println("\n\n" + resultJson);
+		
+		return result;
 	}
 	
 	public static void main(String arg[]) {

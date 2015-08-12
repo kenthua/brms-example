@@ -1,9 +1,9 @@
 package org.example.rules;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
+import org.drools.core.command.runtime.process.StartProcessCommand;
 import org.drools.core.command.runtime.rule.FireAllRulesCommand;
 import org.drools.core.command.runtime.rule.InsertObjectCommand;
 import org.kie.api.command.BatchExecutionCommand;
@@ -15,7 +15,7 @@ import com.redhat.coolstore.ShoppingCart;
 import com.redhat.coolstore.ShoppingCartItem;
 
 public class RuleExecutionXmlPayloadGenProcess {
-	public static void marshallxml() {
+	public static String marshallxml() {
 		
 		// Create your object here
 		ShoppingCartItem sci = new ShoppingCartItem();
@@ -38,21 +38,25 @@ public class RuleExecutionXmlPayloadGenProcess {
 		List<Command<?>> commands = new ArrayList<Command<?>>();
 		BatchExecutionCommand bec = CommandFactory.newBatchExecution(commands);
 		
-		Command<?> startProcessCommand = CommandFactory.newStartProcess("com.redhat.coolstore.PriceProcess", new HashMap());
+		//Command<?> startProcessCommand = CommandFactory.newStartProcess("com.redhat.coolstore.PriceProcess", new HashMap());
 		Command<?> fireAllRulesCommand = new FireAllRulesCommand();
 		
 		// Insert your desired fact objects here
 		InsertObjectCommand iocSc = new InsertObjectCommand(sc);
 		InsertObjectCommand iocSci = new InsertObjectCommand(sci);
+		StartProcessCommand spc = new StartProcessCommand("com.redhat.coolstore.PriceProcess");
 		
 		// Set output name if desired
 		iocSc.setOutIdentifier("shoppingCart");
 		iocSci.setOutIdentifier("shoppingCartItem");
+		spc.setOutIdentifier("myProcess");
+		
 		
 		
 		// Add your facts and rule fire method
 		commands.add(iocSc);
 		commands.add(iocSci);
+		commands.add(spc);
 		//commands.add(startProcessCommand);
 		commands.add(fireAllRulesCommand);
 		
@@ -62,6 +66,8 @@ public class RuleExecutionXmlPayloadGenProcess {
 		
 		String resultJson = BatchExecutionHelper.newJSonMarshaller().toXML(bec);
 		System.out.println("\n\n" + resultJson);
+		
+		return result;
 	}
 	
 	public static void main(String arg[]) {

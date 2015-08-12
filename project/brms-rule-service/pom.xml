@@ -45,7 +45,7 @@
 			<artifactId>kie-internal</artifactId>
 		</dependency>
 		<dependency>
-		
+
 			<groupId>org.kie</groupId>
 			<artifactId>kie-api</artifactId>
 		</dependency>
@@ -55,32 +55,42 @@
 			<artifactId>drools-core</artifactId>
 		</dependency>
 		
+		<!-- per https://access.redhat.com/solutions/1486613 -->
+		<!-- for rule execution generation -->
 		<dependency>
 			<groupId>org.drools</groupId>
 			<artifactId>drools-compiler</artifactId>
 		</dependency>
 
-<!-- json -->
+		<!-- for kie-client -->
+		<dependency>
+			<groupId>org.kie</groupId>
+			<artifactId>kie-server-client</artifactId>
+		</dependency>
+
+		<!-- json -->
+		<!-- issue: https://bugzilla.redhat.com/show_bug.cgi?id=1222843 -->
 		<dependency>
 			<groupId>org.codehaus.jettison</groupId>
 			<artifactId>jettison</artifactId>
 			<version>1.3.7</version>
 		</dependency>
 
+		<!-- jaxb -->
+		<!-- issue: https://bugzilla.redhat.com/show_bug.cgi?id=1222829 -->
 
 		<!-- KJar file from project. -->
-
 		<dependency>
 			<groupId>com.redhat.test</groupId>
 			<artifactId>brmstest</artifactId>
 			<version>LATEST</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.redhat</groupId>
 			<artifactId>coolstore</artifactId>
 			<version>LATEST</version>
-		</dependency>		
+		</dependency>
 	</dependencies>
 
 </project>
