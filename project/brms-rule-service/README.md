@@ -1,6 +1,16 @@
 JBoss BRMS Rule Services
 ========================
 
+KieClient created for XStream XML payload `RuleExecutionKieClient` leveraging `RuleExecutionXmlPayloadGenProcess`. 
+
+JAXB Generator created, `RuleExecutionJAXBPayloadGenProcess`, however a client needs to be written.
+
+Issues with JSON and JAXB 
+
+*JSON issue: https://bugzilla.redhat.com/show_bug.cgi?id=1222843  
+*JAXB issue: https://bugzilla.redhat.com/show_bug.cgi?id=1222829 
+
+
 RuleExecutionXmlPayloadGen - Generates the XML payload expected by the JBoss BRMS Rule Exeuction Server.
 The fact model you want to edit must be in the pom.xml, which means it needs to be in your local Maven repo as well.
 Execute the POJO, Run As -> Java Application
@@ -61,5 +71,6 @@ Sample CoolStore Execution Server payload
 	  <start-process processId="com.redhat.coolstore.PriceProcess" out-identifier="process-out"/>
 	  <fire-all-rules/>
 	</batch-execution>
+
 
 

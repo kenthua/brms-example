@@ -7,7 +7,7 @@ import org.kie.server.client.KieServicesFactory;
 
 public class RuleExecutionKieClient {
 	
-	public static String marshallxml() {
+	public static String callKieServer() {
 				
 		String payload = RuleExecutionXmlPayloadGenProcess.marshallxml();
 		
@@ -44,6 +44,6 @@ public class RuleExecutionKieClient {
 	}
 	
 	public static void main(String arg[]) {
-		RuleExecutionKieClient.marshallxml();
+		RuleExecutionKieClient.callKieServer();
 	}
 }
