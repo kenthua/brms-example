@@ -38,7 +38,6 @@ public class RuleExecutionXmlPayloadGenProcess {
 		List<Command<?>> commands = new ArrayList<Command<?>>();
 		BatchExecutionCommand bec = CommandFactory.newBatchExecution(commands);
 		
-		//Command<?> startProcessCommand = CommandFactory.newStartProcess("com.redhat.coolstore.PriceProcess", new HashMap());
 		Command<?> fireAllRulesCommand = new FireAllRulesCommand();
 		
 		// Insert your desired fact objects here
@@ -51,13 +50,10 @@ public class RuleExecutionXmlPayloadGenProcess {
 		iocSci.setOutIdentifier("shoppingCartItem");
 		spc.setOutIdentifier("myProcess");
 		
-		
-		
 		// Add your facts and rule fire method
 		commands.add(iocSc);
 		commands.add(iocSci);
 		commands.add(spc);
-		//commands.add(startProcessCommand);
 		commands.add(fireAllRulesCommand);
 		
 		// Generate XML payload string
