@@ -30,6 +30,8 @@ JBoss BRMS Rule Execution Server and Simple Servlet Example
 
 0. Alternate: Build the project as a war and add to the EAP_HOME/standalone/deployments folder
   * Build & Deploy rule project
+  * BRMSServiceImpl has a main method, just run the class by itself via JBDS
+  *   OR
   * brms-demo project -> mvn package 
   * copy the .war in the target folder (EAP_HOME/standalone/deployments)
   * http://localhost:8080/brms-demo/ListenServlet
