@@ -52,7 +52,6 @@ Tested on JBoss BRMS v6.1
 
     <batch-execution>
       <insert out-identifier="customer" return-object="true" entry-point="DEFAULT">
-      ...
       </insert>
     <fire-all-rules/>
     </batch-execution>
