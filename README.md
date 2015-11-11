@@ -49,12 +49,6 @@ Tested on JBoss BRMS v6.1
   * HTTP POST
   * Header: Content-Type = application/xml
 * XML Request Payload example (see document end for specific use cases)
-
-    <batch-execution>
-      <insert out-identifier="customer" return-object="true" entry-point="DEFAULT">
-      </insert>
-    <fire-all-rules/>
-    </batch-execution>
      
 # Rule Execution / Testing - Non-execution server
 * Build the brms-demo project as a war and add to the EAP_HOME/standalone/deployments folder
