@@ -1,6 +1,8 @@
 JBoss BRMS Examples
 ===
 
+Tested on JBoss BRMS v6.1
+
 # Installation
 * copy .niogit from the support folder to EAP_HOME/bin
 * In your EAP configuration EAP_HOME/standalone/configuration/application-roles.properties
@@ -48,12 +50,15 @@ JBoss BRMS Examples
   * Header: Content-Type = application/xml
 * XML Request Payload example (see document end for specific use cases):
 
+
     <batch-execution>
       <insert out-identifier="customer" return-object="true" entry-point="DEFAULT">
       ...
       </insert>
     <fire-all-rules/>
     </batch-execution>
+
+
      
 # Rule Execution / Testing - Non-execution server
 * Build the brms-demo project as a war and add to the EAP_HOME/standalone/deployments folder
@@ -114,5 +119,4 @@ JBoss BRMS Examples
     </batch-execution>
 
 
-Refreshed for BRMS/BPM Suite 6.1
 
