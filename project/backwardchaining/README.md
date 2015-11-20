@@ -9,44 +9,47 @@ Updated backwardchaining drl to reflect updates in documentation
 
 Updated pom.xml to reflect necessary enterprise bit versions, up to JBoss BRMS v6.1
 
-go1
-office is in the house
+JUnit Test Result
 ---
-go2
-Draw is in the house
----
-go3
---- No key in the Office, now key is being added in the draw --- fireAllRule() ---
-Key is in the office
----
-go4
-thing Chair is in the office
-thing Desk is in the office
-thing Key is in the office
-thing Computer is in the office
-thing Draw is in the office
----
-go5
-thing Chair is in the location Office
-thing Desk is in the location Office
-thing Draw is in the location Desk
-thing Key is in the location Draw
-thing Kitchen is in the location House
-thing Cheese is in the location Kitchen
-thing Knife is in the location Kitchen
-thing Computer is in the location Desk
-thing Office is in the location House
-thing Key is in the location Office
-thing Draw is in the location House
-thing Computer is in the location House
-thing Key is in the location House
-thing Desk is in the location House
-thing Chair is in the location House
-thing Knife is in the location House
-thing Cheese is in the location House
-thing Computer is in the location Office
-thing Draw is in the location Office
-thing Key is in the location Desk
+
+    go1
+    office is in the house
+    ---
+    go2
+    Draw is in the house
+    ---
+    go3
+    --- No key in the Office, now key is being added in the draw --- fireAllRule() ---
+    Key is in the office
+    ---
+    go4
+    thing Chair is in the office
+    thing Desk is in the office
+    thing Key is in the office
+    thing Computer is in the office
+    thing Draw is in the office
+    ---
+    go5
+    thing Chair is in the location Office
+    thing Desk is in the location Office
+    thing Draw is in the location Desk
+    thing Key is in the location Draw
+    thing Kitchen is in the location House
+    thing Cheese is in the location Kitchen
+    thing Knife is in the location Kitchen
+    thing Computer is in the location Desk
+    thing Office is in the location House
+    thing Key is in the location Office
+    thing Draw is in the location House
+    thing Computer is in the location House
+    thing Key is in the location House
+    thing Desk is in the location House
+    thing Chair is in the location House
+    thing Knife is in the location House
+    thing Cheese is in the location House
+    thing Computer is in the location Office
+    thing Draw is in the location Office
+    thing Key is in the location Desk
 
 ---
 * To get the response like below where additional nesting is outputted, uncomment the commented function and query.  Also comment the previous query, otherwise an isContainedIn duplicate error will result.
