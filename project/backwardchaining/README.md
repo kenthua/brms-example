@@ -9,6 +9,7 @@ Updated backwardchaining drl to reflect updates in documentation
 
 Updated pom.xml to reflect necessary enterprise bit versions, up to JBoss BRMS v6.1
 
+---
 
 Credits to below:
 https://github.com/marcobattaglia/jboss-brms-quickstarts/tree/6.1.x-develop/backwardchaining
