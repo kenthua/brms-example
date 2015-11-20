@@ -1,0 +1,73 @@
+package helloworlddrl;
+import org.jboss.quickstarts.brms.backwardchaining.Location
+
+//function boolean writeMiddle(String z, String x, String y){
+// System.out.print("-> "+x+ " is in " + z + " that is contained in " +y + "  \n ");
+// return true;
+//}
+
+//function boolean writeNextTo(String x, String y){
+// System.out.print("-> "+x+ " is contained in " +y + "  \n ");
+// return true;
+//}
+
+//query  isContainedIn(String x, String y)
+//	( Location( x, y;) and eval( writeNextTo(x,y) ) )
+//	or 
+//	( Location( z,y; ) and isContainedIn( x, z; ) and eval(writeMiddle(z,x,y)) )
+//end
+
+query isContainedIn( String x, String y )
+   Location( x, y; )
+   or
+   ( Location( z, y; ) and isContainedIn( x, z; ) )
+end
+
+rule "go" salience 10
+when
+    $s: String()
+then
+    System.out.println( $s );
+end
+
+rule "go1" 
+when
+    String( this == "go1" )
+    isContainedIn("Office", "House"; )
+then
+    System.out.println( "office is in the house" );
+end
+
+rule "go2" 
+when
+    String( this == "go2" )
+    isContainedIn("Draw", "House"; )
+then
+    System.out.println( "Draw is in the house" );
+end
+
+rule "go3" 
+when
+    String( this == "go3" )
+    isContainedIn("Key", "Office"; )
+then
+    System.out.println( "Key is in the office" );
+end
+
+rule "go4" 
+when
+    String( this == "go4" )
+    isContainedIn(thing, "Office"; )
+then
+    System.out.println( "thing " + thing+ " is in the office" );
+end
+
+
+rule "go5" 
+when
+    String( this == "go5" )
+    isContainedIn(thing, location; )
+then
+    System.out.println( "thing " + thing+ " is in the location " + location );
+end
+
