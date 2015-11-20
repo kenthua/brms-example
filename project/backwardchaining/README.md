@@ -12,7 +12,7 @@ Updated pom.xml to reflect necessary enterprise bit versions, up to JBoss BRMS v
 
 Credits to below:
 https://github.com/marcobattaglia/jboss-brms-quickstarts/tree/6.1.x-develop/backwardchaining
-======================================
+
 Author: Marco Battaglia  
 Level: Medium  
 Technologies: Drools  
