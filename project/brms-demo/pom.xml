@@ -149,7 +149,7 @@
 
 		<!-- Define the version of JBoss' Java EE 6 APIs and Tools we want to import. -->
 		<javaee6.with.tools.version>1.0.4.Final-redhat-4</javaee6.with.tools.version>
-		<jboss.brms.version>6.1.0.GA-redhat-2</jboss.brms.version> 
+		<jboss.brms.version>6.1.4.GA-redhat-2</jboss.brms.version> 
 	</properties>
 
 	<repositories>
