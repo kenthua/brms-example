@@ -18,8 +18,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.1</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.7</source>
+					<target>1.7</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -126,8 +126,16 @@
 				<scope>import</scope>
 				<version>${javaee6.with.tools.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.jboss.bom.brms</groupId>
+				<artifactId>jboss-brms-bpmsuite-bom</artifactId>
+				<type>pom</type>
+				<scope>import</scope>
+				<version>${jboss.brms.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
+	
 	<properties>
 		<!-- Explicitly declaring the source encoding eliminates the following 
 			message: -->
@@ -141,14 +149,14 @@
 
 		<!-- Define the version of JBoss' Java EE 6 APIs and Tools we want to import. -->
 		<javaee6.with.tools.version>1.0.4.Final-redhat-4</javaee6.with.tools.version>
-
+		<jboss.brms.version>6.1.0.GA-redhat-2</jboss.brms.version> 
 	</properties>
 
 	<repositories>
 		<repository>
 			<id>jboss-maven-repository</id>
 			<name>JBoss Maven Repository</name>
-			<url>http://maven.repository.redhat.com/techpreview/all/</url>
+			<url>http://maven.repository.redhat.com/ga/</url>
 			<layout>default</layout>
 			<releases>
 				<enabled>true</enabled>
@@ -165,7 +173,7 @@
 		<pluginRepository>
 			<id>jboss-maven-repository</id>
 			<name>JBoss Maven Repository</name>
-			<url>http://maven.repository.redhat.com/techpreview/all/</url>
+			<url>http://maven.repository.redhat.com/ga/</url>
 			<layout>default</layout>
 			<releases>
 				<enabled>true</enabled>
@@ -177,6 +185,7 @@
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
+
 
 	<dependencies>
 
@@ -204,73 +213,44 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- Test dependencies -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.arquillian.junit</groupId>
-			<artifactId>arquillian-junit-container</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.arquillian.protocol</groupId>
-			<artifactId>arquillian-protocol-servlet</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-web-api</artifactId>
-			<version>6.0</version>
-			<scope>provided</scope>
-		</dependency>
-
 		<!--BRMS libs -->
 		<dependency>
 			<groupId>org.kie</groupId>
 			<artifactId>kie-internal</artifactId>
-			<version>6.0.3-redhat-4</version>
-			<scope>compile</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.kie</groupId>
 			<artifactId>kie-ci</artifactId>
-			<version>6.0.3-redhat-4</version>
-			<scope>compile</scope>
 		</dependency>
-
+		
+		<!-- BRMS support for Score Card -->
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-pmml</artifactId>
+		</dependency>
+		
+		<!-- BRMS support for bpmn rule flow -->	
 		<dependency>
 			<groupId>org.jbpm</groupId>
 			<artifactId>jbpm-bpmn2</artifactId>
-			<version>6.0.3-redhat-4</version>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.mvel</groupId>
 			<artifactId>mvel2</artifactId>
-			<version>2.1.9.Final</version>
+			<version>2.2.4.Final-redhat-1</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jboss.spec.javax.transaction</groupId>
 			<artifactId>jboss-transaction-api_1.1_spec</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.remoting3</groupId>
 			<artifactId>jboss-remoting</artifactId>
 			<version>3.2.16.GA-redhat-1</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -279,11 +259,11 @@
 		</dependency>
 		
 		<!-- KJar file from project. -->
-	
 		<dependency>
 			<groupId>com.redhat.test</groupId>
 			<artifactId>brmstest</artifactId>
 			<version>LATEST</version>
 		</dependency>	
+		
 	</dependencies>
 </project>
