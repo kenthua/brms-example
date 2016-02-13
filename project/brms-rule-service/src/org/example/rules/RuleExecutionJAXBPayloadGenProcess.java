@@ -1,21 +1,19 @@
 package org.example.rules;
 
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 
-import org.drools.compiler.runtime.pipeline.impl.DroolsJaxbHelperProviderImpl;
-import org.drools.core.command.runtime.process.StartProcessCommand;
-import org.drools.core.command.runtime.rule.FireAllRulesCommand;
-import org.drools.core.command.runtime.rule.InsertObjectCommand;
+import org.drools.core.command.impl.GenericCommand;
 import org.kie.api.command.BatchExecutionCommand;
-import org.kie.api.command.Command;
 import org.kie.internal.command.CommandFactory;
+import org.kie.server.api.marshalling.Marshaller;
+import org.kie.server.api.marshalling.MarshallerFactory;
+import org.kie.server.api.marshalling.MarshallingFormat;
 
 import com.redhat.coolstore.ShoppingCart;
 import com.redhat.coolstore.ShoppingCartItem;
@@ -41,41 +39,23 @@ public class RuleExecutionJAXBPayloadGenProcess {
 		sci.setPromoSavings(0d);
 		
 		// Command Setup
-		List<Command<?>> commands = new ArrayList<Command<?>>();
-		BatchExecutionCommand bec = CommandFactory.newBatchExecution(commands);
-		
-		Command<?> fireAllRulesCommand = new FireAllRulesCommand();
-		
-		// Insert your desired fact objects here
-		InsertObjectCommand iocSc = new InsertObjectCommand(sc);
-		InsertObjectCommand iocSci = new InsertObjectCommand(sci);
-		StartProcessCommand spc = new StartProcessCommand("com.redhat.coolstore.PriceProcess");
-		
-		// Set output name if desired
-		iocSc.setOutIdentifier("shoppingCart");
-		iocSci.setOutIdentifier("shoppingCartItem");
-		spc.setOutIdentifier("myProcess");
-		
-		// Add your facts and rule fire method
-		commands.add(iocSc);
-		commands.add(iocSci);
-		commands.add(spc);
-		commands.add(fireAllRulesCommand);
+		List<GenericCommand<?>> commands = new ArrayList<GenericCommand<?>>();
+		commands.add((GenericCommand<?>) CommandFactory.newInsert(sc, "sc-identifier"));
+		commands.add((GenericCommand<?>) CommandFactory.newInsert(sci, "sci-identifier"));
+		commands.add((GenericCommand<?>) CommandFactory.newFireAllRules("fire-identifier"));
+		commands.add((GenericCommand<?>) CommandFactory.newStartProcess("com.redhat.coolstore.PriceProcess"));
+		BatchExecutionCommand command = CommandFactory.newBatchExecution(commands, "defaultKieSession");
 
-		// approach 1 - works
-		List<String> classNames = new ArrayList<String>();
-		classNames.add("com.redhat.coolstore.ShoppingCart");
-		classNames.add("com.redhat.coolstore.ShoppingCartItem");
-		JAXBContext jaxbContext = DroolsJaxbHelperProviderImpl.createDroolsJaxbContext(classNames, null);
-		Marshaller marshaller = jaxbContext.createMarshaller();
+		// Generate JAXB payload string
+		Set<Class<?>> allClasses = new HashSet<Class<?>>();
+		allClasses.add(ShoppingCart.class);
+		allClasses.add(ShoppingCartItem.class);
 
-		StringWriter xml = new StringWriter();
-		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-		marshaller.marshal(bec, xml);
+		Marshaller marshallerJaxb = MarshallerFactory.getMarshaller(allClasses, MarshallingFormat.JAXB, RuleExecutionJAXBPayloadGenProcess.class.getClassLoader());
+		String out = marshallerJaxb.marshall(command);
+		System.out.println(out);
 
-		System.out.println(xml);
-
-		return xml.toString();
+		return out.toString();
 	}
 	
 	public static void main(String arg[]) throws Exception {

@@ -1,42 +1,48 @@
 JBoss BRMS Examples
 ===
 
-Tested on JBoss BRMS v6.1
+Tested on JBoss BRMS v6.2
 
 # Installation
 * copy .niogit from the support folder to EAP_HOME/bin
+* Follow the instructions in the following knowledge base [article](https://access.redhat.com/solutions/2106041)
+  * Sample properties
+```  
+    <property name="org.kie.server.user" value="brmsAdmin"></property>
+    <property name="org.kie.server.pwd" value="passw0rd!"></property>
+    <property name="org.kie.server.location" value="http://localhost:8080/kie-server/services/rest/server"></property>
+    <property name="org.kie.server.controller" value="http://localhost:8080/business-central/rest/controller"></property>
+    <property name="org.kie.server.controller.user" value="kieserver"></property>
+    <property name="org.kie.server.controller.pwd" value="kieserver1!"></property>
+    <property name="org.jbpm.server.ext.disabled" value="true"></property>
+    <property name="org.kie.server.id" value="local-server"></property>
+```
 * In your EAP configuration EAP_HOME/standalone/configuration/application-roles.properties
 * Your user must have the "kie-server" role
 * Build & Deploy specific rule projects
-  * example / Test / brmstest
-  * example / Example / MyExample
+  * example / Examples / brms
+  * example / Examples / iteration
   
 # Rule Execution Server Creation (Realtime Decision Server) 
 * From Business Central
-* Deploy -> Rule Deployments -> Register
-  * Endpoint: http://localhost:8080/kie-server/services/rest/server
-  * Name: Test Server
-  * User/Password: account with kie-server role
-* Click the "+" to the right of your new "Test Server Name", this will create the container
+* Click the "+" to the right of your new "local-server", this will create the container
   * Name: [container_name]
   * Valid GAV (get this from the Project Editor of your project) / or use the search mechanism, search for: [gav]
   * Click the radio button of your new container and click Start on the right
-  * If you click on the right arrow of [container_name], you can see the endpoint:
-    * http://localhost:8080/kie-server/services/rest/server/containers/[container_name]
 
-# Rule examples - general (brmstest)
-* example / Test / brmstest
+# Rule examples - general (brms)
+* example / Examples / brms
 * Rule execution server container settings
   * Group Name: com.redhat.test
-  * Artifact Id: brmstest
-  * Version: 1.0.1 
+  * Artifact Id: brms
+  * Version: 1.0
   
-# Rule example - data model with collection (MyExample)
-* example / Example / MyExample
+# Rule example - data model with collection (iteration)
+* example / Examples / iteration
 * Rule execution server container settings
-  * Group Name: com.redhat.example
-  * Artifact Id: MyExample
-  * Version: 1.0.5
+  * Group Name: com.redhat.test
+  * Artifact Id: iteration
+  * Version: 1.0
 
 # Rule Execution Server Payload Generation
 * Use the project brms-rule-service - RuleExecutionXmlPayloadGen POJO to generate your payload
@@ -44,13 +50,15 @@ Tested on JBoss BRMS v6.1
 
 # Invoking the Rule Execution Server from REST Client
 * Call out to the new container and see what response you get back
-* Endpoint / URL: http://localhost:8080/kie-server/services/rest/server/containers/[container_name]
+* Endpoint / URL: http://localhost:8080/kie-server/services/rest/server/containers/instances/[container_name]
 * REST Info
   * HTTP POST
   * Header: Content-Type = application/xml
+  * Header: X-KIE-ContentType: XSTREAM
 * XML Request Payload example (see document end for specific use cases)
      
 # Rule Execution / Testing - Non-execution server
+**NOT TESTED FOR BRMS 6.2**
 * Build the brms-demo project as a war and add to the EAP_HOME/standalone/deployments folder
   * Build & Deploy rule project
   * BRMSServiceImpl has a main method, just run the class by itself via JBDS
@@ -65,48 +73,57 @@ Tested on JBoss BRMS v6.1
 * Don't expect anything in return, watch the EAP system out (server.log) for messages of rules being executed.
 
 
-# Payload Example - brmstest
+# Payload Example - brms
 
-    <batch-execution>
-      <insert out-identifier="customer" return-object="true" entry-point="DEFAULT">
-        <com.redhat.test.brmstest.fact.Customer>
+    <batch-execution lookup="defaultKieSession">
+      <insert out-identifier="customer-identifier" return-object="true" entry-point="DEFAULT">
+        <com.redhat.test.brms.Customer>
           <accountCount>0</accountCount>
           <firstName>John</firstName>
           <lastName>Doe</lastName>
-        </com.redhat.test.brmstest.fact.Customer>
+        </com.redhat.test.brms.Customer>
       </insert>
-      <insert out-identifier="account" return-object="true" entry-point="DEFAULT">
-        <com.redhat.test.brmstest.fact.Account>
+      <insert out-identifier="account1-identifier" return-object="true" entry-point="DEFAULT">
+        <com.redhat.test.brms.Account>
           <balance>100.0</balance>
-          <customer reference="../../../insert/com.redhat.test.brmstest.fact.Customer"/>
+          <customer reference="../../../insert/com.redhat.test.brms.Customer"/>
           <number>C-12345</number>
           <type>CHECKING</type>
-        </com.redhat.test.brmstest.fact.Account>
+        </com.redhat.test.brms.Account>
       </insert>
-      <fire-all-rules/>
+      <insert out-identifier="account2-identifier" return-object="true" entry-point="DEFAULT">
+        <com.redhat.test.brms.Account>
+          <balance>200.0</balance>
+          <customer reference="../../../insert/com.redhat.test.brms.Customer"/>
+          <number>C-67890</number>
+          <type>CHECKING</type>
+        </com.redhat.test.brms.Account>
+      </insert>
+      <fire-all-rules out-identifier="fire-identifier"/>
     </batch-execution>
 
-# Payload Example - MyExample
+# Payload Example - iteration
 
-    <batch-execution>
-      <insert out-identifier="customer" return-object="true" entry-point="DEFAULT">
-        <com.redhat.example.myexample.Customer>
-          <id>1</id>
-          <firstName>John</firstName>
+    <batch-execution lookup="defaultKieSession">
+      <insert out-identifier="insert-identifier" return-object="true" entry-point="DEFAULT">
+        <com.redhat.test.iteration.Customer>
           <accounts>
-            <com.redhat.example.myexample.Account>
-              <type>CHECKING</type>
+            <com.redhat.test.iteration.Account>
               <balance>10.0</balance>
-            </com.redhat.example.myexample.Account>
-            <com.redhat.example.myexample.Account>
-              <type>SAVINGS</type>
+              <type>CHECKING</type>
+            </com.redhat.test.iteration.Account>
+            <com.redhat.test.iteration.Account>
               <balance>20.0</balance>
-            </com.redhat.example.myexample.Account>
+              <type>CHECKING</type>
+            </com.redhat.test.iteration.Account>
           </accounts>
-        </com.redhat.example.myexample.Customer>
+          <firstName>John</firstName>
+          <id>1</id>
+        </com.redhat.test.iteration.Customer>
       </insert>
-      <fire-all-rules/>
+      <fire-all-rules out-identifier="fire-identifier"/>
     </batch-execution>
+
 
 
 

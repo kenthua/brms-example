@@ -3,6 +3,7 @@ package org.example.rules;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.drools.core.command.impl.GenericCommand;
 import org.drools.core.command.runtime.process.StartProcessCommand;
 import org.drools.core.command.runtime.rule.FireAllRulesCommand;
 import org.drools.core.command.runtime.rule.InsertObjectCommand;
@@ -10,6 +11,9 @@ import org.kie.api.command.BatchExecutionCommand;
 import org.kie.api.command.Command;
 import org.kie.internal.command.CommandFactory;
 import org.kie.internal.runtime.helper.BatchExecutionHelper;
+import org.kie.server.api.marshalling.Marshaller;
+import org.kie.server.api.marshalling.MarshallerFactory;
+import org.kie.server.api.marshalling.MarshallingFormat;
 
 import com.redhat.coolstore.ShoppingCart;
 import com.redhat.coolstore.ShoppingCartItem;
@@ -34,36 +38,27 @@ public class RuleExecutionXmlPayloadGenProcess {
 		sci.setShoppingCart(sc);
 		sci.setPromoSavings(0d);
 		
+		
 		// Command Setup
-		List<Command<?>> commands = new ArrayList<Command<?>>();
-		BatchExecutionCommand bec = CommandFactory.newBatchExecution(commands);
+		List<GenericCommand<?>> commands = new ArrayList<GenericCommand<?>>();
+		commands.add((GenericCommand<?>) CommandFactory.newInsert(sc, "sc-identifier"));
+		commands.add((GenericCommand<?>) CommandFactory.newInsert(sci, "sci-identifier"));
+		commands.add((GenericCommand<?>) CommandFactory.newFireAllRules("fire-identifier"));
+		commands.add((GenericCommand<?>) CommandFactory.newStartProcess("com.redhat.coolstore.PriceProcess"));
+		BatchExecutionCommand command = CommandFactory.newBatchExecution(commands, "defaultKieSession");
 		
-		Command<?> fireAllRulesCommand = new FireAllRulesCommand();
-		
-		// Insert your desired fact objects here
-		InsertObjectCommand iocSc = new InsertObjectCommand(sc);
-		InsertObjectCommand iocSci = new InsertObjectCommand(sci);
-		StartProcessCommand spc = new StartProcessCommand("com.redhat.coolstore.PriceProcess");
-		
-		// Set output name if desired
-		iocSc.setOutIdentifier("shoppingCart");
-		iocSci.setOutIdentifier("shoppingCartItem");
-		spc.setOutIdentifier("myProcess");
-		
-		// Add your facts and rule fire method
-		commands.add(iocSc);
-		commands.add(iocSci);
-		commands.add(spc);
-		commands.add(fireAllRulesCommand);
 		
 		// Generate XML payload string
-		String result = BatchExecutionHelper.newXStreamMarshaller().toXML(bec);
-		System.out.println(result);
+	   	Marshaller marshaller = MarshallerFactory.getMarshaller(MarshallingFormat.XSTREAM, RuleExecutionKieClient.class.getClassLoader());
+		String out = marshaller.marshall(command);
+		System.out.println(out);
 		
-		String resultJson = BatchExecutionHelper.newJSonMarshaller().toXML(bec);
-		System.out.println("\n\n" + resultJson);
-		
-		return result;
+		// Generate JSON payload string
+	   	Marshaller marshallerJson = MarshallerFactory.getMarshaller(MarshallingFormat.JSON, RuleExecutionKieClient.class.getClassLoader());
+	   	String outJson = marshallerJson.marshall(command);
+		System.out.println("\n\n" + outJson);
+  	
+		return out;
 	}
 	
 	public static void main(String arg[]) {
