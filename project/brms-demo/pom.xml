@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.redhat.test</groupId>
 	<artifactId>brms-demo</artifactId>
-	<version>2.0.0-Final</version>
+	<version>2.1.0-Final</version>
 	<packaging>war</packaging>
 	<name>brms demo</name>
 
@@ -18,8 +18,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.1</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -148,8 +148,8 @@
 		<maven.build.timestamp.format>yyyyMMdd'T'HHmmss</maven.build.timestamp.format>
 
 		<!-- Define the version of JBoss' Java EE 6 APIs and Tools we want to import. -->
-		<javaee6.with.tools.version>1.0.4.Final-redhat-4</javaee6.with.tools.version>
-		<jboss.brms.version>6.1.4.GA-redhat-2</jboss.brms.version> 
+		<javaee6.with.tools.version>1.0.4.Final-redhat-9</javaee6.with.tools.version>
+		<jboss.brms.version>6.2.1.GA-redhat-2</jboss.brms.version> 
 	</properties>
 
 	<repositories>
@@ -189,29 +189,10 @@
 
 	<dependencies>
 
-		<!-- Import the CDI API, we use provided scope as the API is included in 
-			JBoss AS 7 -->
-		<dependency>
-			<groupId>javax.enterprise</groupId>
-			<artifactId>cdi-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
-
-		<!-- Import the JPA API, we use provided scope as the API is included in 
-			JBoss AS 7 -->
-		<dependency>
-			<groupId>org.hibernate.javax.persistence</groupId>
-			<artifactId>hibernate-jpa-2.0-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
-
-		<!-- Import the EJB API, we use provided scope as the API is included in 
-			JBoss AS 7 -->
-		<dependency>
-			<groupId>org.jboss.spec.javax.ejb</groupId>
-			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
-			<scope>provided</scope>
-		</dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.servlet</groupId>
+            <artifactId>jboss-servlet-api_3.0_spec</artifactId>
+        </dependency>
 
 		<!--BRMS libs -->
 		<dependency>
@@ -222,7 +203,7 @@
 			<groupId>org.kie</groupId>
 			<artifactId>kie-ci</artifactId>
 		</dependency>
-		
+				
 		<!-- BRMS support for Score Card -->
 		<dependency>
 			<groupId>org.drools</groupId>
@@ -234,24 +215,7 @@
 			<groupId>org.jbpm</groupId>
 			<artifactId>jbpm-bpmn2</artifactId>
 		</dependency>
-		
-		<dependency>
-			<groupId>org.mvel</groupId>
-			<artifactId>mvel2</artifactId>
-			<version>2.2.4.Final-redhat-1</version>
-		</dependency>
 
-		<dependency>
-			<groupId>org.jboss.spec.javax.transaction</groupId>
-			<artifactId>jboss-transaction-api_1.1_spec</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.remoting3</groupId>
-			<artifactId>jboss-remoting</artifactId>
-			<version>3.2.16.GA-redhat-1</version>
-			<scope>provided</scope>
-		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -261,7 +225,7 @@
 		<!-- KJar file from project. -->
 		<dependency>
 			<groupId>com.redhat.test</groupId>
-			<artifactId>brmstest</artifactId>
+			<artifactId>brms</artifactId>
 			<version>LATEST</version>
 		</dependency>	
 		

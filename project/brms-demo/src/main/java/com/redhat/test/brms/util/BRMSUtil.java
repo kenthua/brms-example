@@ -18,7 +18,7 @@ public class BRMSUtil {
     	System.out.println(">> BRMSUtil: constructor START");
     	KieServices kServices = KieServices.Factory.get();
 
-		ReleaseId releaseId = kServices.newReleaseId( "com.redhat.test", "brmstest", "LATEST" );
+		ReleaseId releaseId = kServices.newReleaseId( "com.redhat.test", "brms", "LATEST" );
 
 		kContainer = kServices.newKieContainer( releaseId );
 

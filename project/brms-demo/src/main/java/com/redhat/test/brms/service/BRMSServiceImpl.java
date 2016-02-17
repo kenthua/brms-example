@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ejb.Stateful;
-
 import org.kie.api.event.process.ProcessCompletedEvent;
 import org.kie.api.event.process.ProcessEventListener;
 import org.kie.api.event.process.ProcessNodeLeftEvent;
@@ -27,7 +25,7 @@ import com.redhat.test.brms.model.Account;
 import com.redhat.test.brms.model.Customer;
 import com.redhat.test.brms.util.BRMSUtil;
 
-@Stateful
+//@Stateful
 public class BRMSServiceImpl implements Serializable {
 
 	private static final long serialVersionUID = 6821952169434330759L;
@@ -50,14 +48,14 @@ public class BRMSServiceImpl implements Serializable {
 				
 				if(cs != null && cs.size() >0) {
 					for(com.redhat.test.brms.model.Customer c : cs) {		
-						com.redhat.test.brmstest.fact.Customer factCustomer = new com.redhat.test.brmstest.fact.Customer();
+						com.redhat.test.brms.Customer factCustomer = new com.redhat.test.brms.Customer();
 						factCustomer.setFirstName(c.getFirstName());
 						factCustomer.setLastName(c.getLastName());
 						factCustomer.setAccountCount(0);
 						ksession.insert(factCustomer);
 						if(c.getAccounts().size() > 0) {
 							for(com.redhat.test.brms.model.Account a : c.getAccounts()) {
-								com.redhat.test.brmstest.fact.Account factAccount = new com.redhat.test.brmstest.fact.Account();
+								com.redhat.test.brms.Account factAccount = new com.redhat.test.brms.Account();
 								factAccount.setBalance(a.getBalance());
 								factAccount.setType(a.getType());
 								factAccount.setCustomer(factCustomer);
