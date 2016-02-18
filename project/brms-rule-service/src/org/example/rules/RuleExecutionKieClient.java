@@ -64,7 +64,6 @@ public class RuleExecutionKieClient {
 		// marshal object to xml
 		/* If you want to marshall commands to XML manually, then ALWAYS use Marshaller coming directly from the Kie Server API
 		 when using native rest client, it is not necessary though
-	   	Marshaller marshaller = MarshallerFactory.getMarshaller(MarshallingFormat.JSON, RESTClient.class.getClassLoader());
 	    */
 	   	Marshaller marshaller = MarshallerFactory.getMarshaller(MarshallingFormat.XSTREAM, RuleExecutionKieClient.class.getClassLoader());
 		String out = marshaller.marshall(command);
@@ -76,7 +75,7 @@ public class RuleExecutionKieClient {
 		
 		System.out.println("===server response====");
 	
-		ServiceResponse<String> response = ruleClient.executeCommands(CONTAINER, out);
+		ServiceResponse<String> response = ruleClient.executeCommands(CONTAINER, command);
 		System.out.println(response.getResult());
 
 	}
@@ -88,7 +87,10 @@ public class RuleExecutionKieClient {
 		
 		//alternatives - uncomment below if changing the data format is desired
 		
+		// switch to xstream by changing above ruleClient.executeCommands(CONTAINER, out);
 		//config.setMarshallingFormat(MarshallingFormat.XSTREAM);
+		
+		// switch to JSON by changing above ruleClient.executeCommands(CONTAINER, outJson);
 		//config.setMarshallingFormat(MarshallingFormat.JSON);
 
 	

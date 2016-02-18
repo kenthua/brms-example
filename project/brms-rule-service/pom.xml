@@ -17,8 +17,19 @@
 			</plugin>
 		</plugins>
 	</build>
+	<properties>
+		<jboss.brms.version>6.2.1.GA-redhat-2</jboss.brms.version> 
+	</properties>
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>org.jboss.bom.brms</groupId>
+				<artifactId>jboss-brms-bpmsuite-bom</artifactId>
+				<type>pom</type>
+				<scope>import</scope>
+				<version>${jboss.brms.version}</version>
+			</dependency>
+<!--
 			<dependency>
 				<groupId>org.kie</groupId>
 				<artifactId>kie-bom</artifactId>
@@ -33,6 +44,7 @@
 				<scope>import</scope>
 				<version>6.3.0.Final-redhat-7</version>
 			</dependency>
+-->
 		</dependencies>
 	</dependencyManagement>
 
