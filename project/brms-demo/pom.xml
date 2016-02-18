@@ -119,19 +119,19 @@
 	</profiles>
 	<dependencyManagement>
 		<dependencies>
-			<dependency>
-				<groupId>org.jboss.bom</groupId>
-				<artifactId>jboss-javaee-6.0-with-tools</artifactId>
-				<type>pom</type>
-				<scope>import</scope>
-				<version>${javaee6.with.tools.version}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.jboss.bom.eap</groupId>
+                <artifactId>jboss-javaee-6.0-with-tools</artifactId>
+                <version>${jboss.bom.eap.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>		
 			<dependency>
 				<groupId>org.jboss.bom.brms</groupId>
 				<artifactId>jboss-brms-bpmsuite-bom</artifactId>
 				<type>pom</type>
 				<scope>import</scope>
-				<version>${jboss.brms.version}</version>
+				<version>${jboss.bom.brms.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -148,8 +148,8 @@
 		<maven.build.timestamp.format>yyyyMMdd'T'HHmmss</maven.build.timestamp.format>
 
 		<!-- Define the version of JBoss' Java EE 6 APIs and Tools we want to import. -->
-		<javaee6.with.tools.version>1.0.4.Final-redhat-9</javaee6.with.tools.version>
-		<jboss.brms.version>6.2.1.GA-redhat-2</jboss.brms.version> 
+		<jboss.bom.eap.version>6.4.6.GA</jboss.bom.eap.version>
+		<jboss.bom.brms.version>6.2.1.GA-redhat-2</jboss.bom.brms.version> 
 	</properties>
 
 	<repositories>
@@ -226,7 +226,7 @@
 		<dependency>
 			<groupId>com.redhat.test</groupId>
 			<artifactId>brms</artifactId>
-			<version>LATEST</version>
+			<version>1.0</version>
 		</dependency>	
 		
 	</dependencies>
