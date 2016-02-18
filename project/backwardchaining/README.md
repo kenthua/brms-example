@@ -2,12 +2,13 @@ Backward-chaining: Backward-chaining Basic DRL example
 ===
 
 2015-11-19
+Tested on JBoss BRMS 6.2
 
 Based on an example in the documentation: https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_BPM_Suite/6.1/html/Development_Guide/sect-Backward-Chaining.html
 
 Updated backwardchaining drl to reflect updates in documentation
 
-Updated pom.xml to reflect necessary enterprise bit versions, up to JBoss BRMS v6.1
+Updated pom.xml to reflect necessary enterprise bit versions, up to JBoss BRMS v6.2
 
 JUnit Test Result
 ---
