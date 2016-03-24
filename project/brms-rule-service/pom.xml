@@ -58,7 +58,7 @@
 		<dependency>
 			<groupId>com.redhat.test</groupId>
 			<artifactId>brms</artifactId>
-			<version>LATEST</version>
+			<version>1.0</version>
 		</dependency>
 
 		<dependency>
@@ -70,7 +70,7 @@
 		<dependency>
 			<groupId>com.redhat.test</groupId>
 			<artifactId>iteration</artifactId>
-			<version>LATEST</version>
+			<version>1.0</version>
 		</dependency>
 	</dependencies>
 
