@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.drools.core.command.impl.GenericCommand;
+import org.example.rules.RuleExecutionKieClient;
+import org.kie.api.KieServices;
 import org.kie.api.command.BatchExecutionCommand;
-import org.kie.internal.command.CommandFactory;
+import org.kie.api.command.KieCommands;
 import org.kie.server.api.marshalling.Marshaller;
 import org.kie.server.api.marshalling.MarshallerFactory;
 import org.kie.server.api.marshalling.MarshallingFormat;
@@ -37,13 +39,19 @@ public class RuleExecutionXmlPayloadGen {
 		a1.setCustomer(c);
 		a2.setCustomer(c);
 		
+		// KieCommands provides more commands than "CommandFactory.", such as newAgendaGroupSetFocus
+		KieCommands cmdFactory = KieServices.Factory.get().getCommands();
+		
 		// Command Setup
 		List<GenericCommand<?>> commands = new ArrayList<GenericCommand<?>>();
-		commands.add((GenericCommand<?>) CommandFactory.newInsert(c, "customer-identifier"));
-		commands.add((GenericCommand<?>) CommandFactory.newInsert(a1, "account1-identifier"));
-		commands.add((GenericCommand<?>) CommandFactory.newInsert(a2, "account2-identifier"));
-		commands.add((GenericCommand<?>) CommandFactory.newFireAllRules("fire-identifier"));
-		BatchExecutionCommand command = CommandFactory.newBatchExecution(commands, "defaultKieSession");
+		//agenda group focus
+		//commands.add((GenericCommand<?>) cmdFactory.newAgendaGroupSetFocus("test"));
+		
+		commands.add((GenericCommand<?>) cmdFactory.newInsert(c, "customer-identifier"));
+		commands.add((GenericCommand<?>) cmdFactory.newInsert(a1, "account1-identifier"));
+		commands.add((GenericCommand<?>) cmdFactory.newInsert(a2, "account2-identifier"));
+		commands.add((GenericCommand<?>) cmdFactory.newFireAllRules("fire-identifier"));
+		BatchExecutionCommand command = cmdFactory.newBatchExecution(commands, "defaultKieSession");
 		
 		// Generate XML payload string
 	   	Marshaller marshaller = MarshallerFactory.getMarshaller(MarshallingFormat.XSTREAM, RuleExecutionKieClient.class.getClassLoader());

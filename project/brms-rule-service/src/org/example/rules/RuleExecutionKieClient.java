@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Set;
 
 import org.drools.core.command.impl.GenericCommand;
+import org.kie.api.KieServices;
 import org.kie.api.command.BatchExecutionCommand;
+import org.kie.api.command.KieCommands;
 import org.kie.internal.command.CommandFactory;
 import org.kie.server.api.marshalling.Marshaller;
 import org.kie.server.api.marshalling.MarshallerFactory;
@@ -53,9 +55,13 @@ public class RuleExecutionKieClient {
  		a2.setType("CHECKING");
  		aList.add(a1);
  		aList.add(a2);
-		commands.add((GenericCommand<?>) CommandFactory.newInsert(c, "insert-identifier"));
-		commands.add((GenericCommand<?>) CommandFactory.newFireAllRules("fire-identifier"));
-		BatchExecutionCommand command = CommandFactory.newBatchExecution(commands, "defaultKieSession");
+ 		
+		// KieCommands provides more commands than "CommandFactory.", such as newAgendaGroupSetFocus
+		KieCommands cmdFactory = KieServices.Factory.get().getCommands();
+		
+		commands.add((GenericCommand<?>) cmdFactory.newInsert(c, "insert-identifier"));
+		commands.add((GenericCommand<?>) cmdFactory.newFireAllRules("fire-identifier"));
+		BatchExecutionCommand command = cmdFactory.newBatchExecution(commands, "defaultKieSession");
 
 		// old way
 		//String s = BatchExecutionHelper.newXStreamMarshaller().toXML(command);		

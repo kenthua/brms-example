@@ -9,8 +9,9 @@ import java.util.Set;
 import javax.xml.bind.JAXBException;
 
 import org.drools.core.command.impl.GenericCommand;
+import org.kie.api.KieServices;
 import org.kie.api.command.BatchExecutionCommand;
-import org.kie.internal.command.CommandFactory;
+import org.kie.api.command.KieCommands;
 import org.kie.server.api.marshalling.Marshaller;
 import org.kie.server.api.marshalling.MarshallerFactory;
 import org.kie.server.api.marshalling.MarshallingFormat;
@@ -38,13 +39,16 @@ public class RuleExecutionJAXBPayloadGenProcess {
 		sci.setShoppingCart(sc);
 		sci.setPromoSavings(0d);
 		
+		// KieCommands provides more commands than "CommandFactory.", such as newAgendaGroupSetFocus
+		KieCommands cmdFactory = KieServices.Factory.get().getCommands();
+		
 		// Command Setup
 		List<GenericCommand<?>> commands = new ArrayList<GenericCommand<?>>();
-		commands.add((GenericCommand<?>) CommandFactory.newInsert(sc, "sc-identifier"));
-		commands.add((GenericCommand<?>) CommandFactory.newInsert(sci, "sci-identifier"));
-		commands.add((GenericCommand<?>) CommandFactory.newFireAllRules("fire-identifier"));
-		commands.add((GenericCommand<?>) CommandFactory.newStartProcess("com.redhat.coolstore.PriceProcess"));
-		BatchExecutionCommand command = CommandFactory.newBatchExecution(commands, "defaultKieSession");
+		commands.add((GenericCommand<?>) cmdFactory.newInsert(sc, "sc-identifier"));
+		commands.add((GenericCommand<?>) cmdFactory.newInsert(sci, "sci-identifier"));
+		commands.add((GenericCommand<?>) cmdFactory.newFireAllRules("fire-identifier"));
+		commands.add((GenericCommand<?>) cmdFactory.newStartProcess("com.redhat.coolstore.PriceProcess"));
+		BatchExecutionCommand command = cmdFactory.newBatchExecution(commands, "defaultKieSession");
 
 		// Generate JAXB payload string
 		Set<Class<?>> allClasses = new HashSet<Class<?>>();
