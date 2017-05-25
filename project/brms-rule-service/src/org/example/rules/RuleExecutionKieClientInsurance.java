@@ -5,11 +5,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.drools.core.command.impl.GenericCommand;
 import org.kie.api.KieServices;
 import org.kie.api.command.BatchExecutionCommand;
+import org.kie.api.command.Command;
 import org.kie.api.command.KieCommands;
-import org.kie.internal.command.CommandFactory;
 import org.kie.server.api.marshalling.Marshaller;
 import org.kie.server.api.marshalling.MarshallerFactory;
 import org.kie.server.api.marshalling.MarshallingFormat;
@@ -19,63 +18,54 @@ import org.kie.server.client.KieServicesConfiguration;
 import org.kie.server.client.KieServicesFactory;
 import org.kie.server.client.RuleServicesClient;
 
-import com.redhat.test.iteration.Account;
-import com.redhat.test.iteration.Customer;
+import com.redhat.coolstore.ShoppingCart;
+import com.redhat.coolstore.ShoppingCartItem;
+import com.redhat.demos.insurance.Driver;
+import com.redhat.demos.insurance.Policy;
 
 
-public class RuleExecutionKieClient {
+public class RuleExecutionKieClientInsurance {
 
-	public static final String USERNAME = "brmsAdmin";
-	public static final String PASSWORD = "passw0rd!";
+	public static final String USERNAME = "user";
+	public static final String PASSWORD = "passw0rd";
 	public static final String SERVER_URL = "http://localhost:8080/kie-server/services/rest/server";
-	public static final String CONTAINER = "Iteration";
-	//public static final String KIESESSION = "myStateless";
+	public static final String CONTAINER = "com.redhat.demos:DecisionPolicy:1.0";
+	public static final String KIESESSION = "defaultKieSession";
 
 	public static void main(String args[])  {
 		
-
 		// configure client
-
 		KieServicesClient client = configure(SERVER_URL, USERNAME, PASSWORD);
 		RuleServicesClient ruleClient = client.getServicesClient(RuleServicesClient.class);
 
-		// generate commands
-		List<GenericCommand<?>> commands = new ArrayList<GenericCommand<?>>();
+		// Create your object here
+		Driver driver = new Driver();
+		Policy policy = new Policy();
+		
+		driver.setAge(25);
+		driver.setLocationRiskProfile("LOW");
+		driver.setPriorClaims(0);
+		policy.setType("COMPREHENSIVE");
 
-		Customer c = new Customer();
-		c.setId("1");
-		c.setFirstName("John");
-		List<Account> aList = new ArrayList<Account>();
- 		c.setAccounts(aList);
- 		Account a1 = new Account();
- 		a1.setBalance(10.0);
- 		a1.setType("CHECKING");
- 		Account a2 = new Account();
- 		a2.setBalance(20.0);
- 		a2.setType("CHECKING");
- 		aList.add(a1);
- 		aList.add(a2);
- 		
 		// KieCommands provides more commands than "CommandFactory.", such as newAgendaGroupSetFocus
 		KieCommands cmdFactory = KieServices.Factory.get().getCommands();
 		
-		commands.add((GenericCommand<?>) cmdFactory.newInsert(c, "insert-identifier"));
-		commands.add((GenericCommand<?>) cmdFactory.newFireAllRules("fire-identifier"));
-		BatchExecutionCommand command = cmdFactory.newBatchExecution(commands, "defaultKieSession");
-
-		// old way
-		//String s = BatchExecutionHelper.newXStreamMarshaller().toXML(command);		
-		//System.out.println(s);
+		// Command Setup
+		List<Command> commands = new ArrayList<Command>();
+		commands.add(cmdFactory.newInsert(driver));
+		commands.add(cmdFactory.newInsert(policy, "policy-out"));
+		commands.add(cmdFactory.newFireAllRules());
+		BatchExecutionCommand command = cmdFactory.newBatchExecution(commands, KIESESSION);
 
 		// marshal object to xml
 		/* If you want to marshall commands to XML manually, then ALWAYS use Marshaller coming directly from the Kie Server API
 		 when using native rest client, it is not necessary though
 	    */
-	   	Marshaller marshaller = MarshallerFactory.getMarshaller(MarshallingFormat.XSTREAM, RuleExecutionKieClient.class.getClassLoader());
+	   	Marshaller marshaller = MarshallerFactory.getMarshaller(MarshallingFormat.XSTREAM, RuleExecutionKieClientInsurance.class.getClassLoader());
 		String out = marshaller.marshall(command);
 		System.out.println(out);
 
-	   	Marshaller marshallerJson = MarshallerFactory.getMarshaller(MarshallingFormat.JSON, RuleExecutionKieClient.class.getClassLoader());
+	   	Marshaller marshallerJson = MarshallerFactory.getMarshaller(MarshallingFormat.JSON, RuleExecutionKieClientInsurance.class.getClassLoader());
 		String outJson = marshallerJson.marshall(command);
 		System.out.println("\n\n" + outJson);
 		
@@ -83,6 +73,7 @@ public class RuleExecutionKieClient {
 	
 		ServiceResponse<String> response = ruleClient.executeCommands(CONTAINER, command);
 		System.out.println(response.getResult());
+		System.out.println(response.getMsg());
 
 	}
 
@@ -97,18 +88,13 @@ public class RuleExecutionKieClient {
 		//config.setMarshallingFormat(MarshallingFormat.XSTREAM);
 		
 		// switch to JSON by changing above ruleClient.executeCommands(CONTAINER, outJson);
-		//config.setMarshallingFormat(MarshallingFormat.JSON);
-
+		config.setMarshallingFormat(MarshallingFormat.JSON);
 	
-		Set<Class<?>> allClasses = new HashSet<Class<?>>();
-		allClasses.add(Account.class);
-		allClasses.add(Customer.class);
-		allClasses.add(org.drools.core.command.runtime.rule.FireAllRulesCommand.class);
-		allClasses.add(org.drools.core.command.runtime.rule.InsertObjectCommand.class);
-		allClasses.add(org.drools.core.common.DefaultFactHandle.class);
-		allClasses.add(org.drools.core.command.runtime.rule.GetObjectCommand.class);
-		config.addJaxbClasses(allClasses);
+		Set<Class<?>> extraClasses = new HashSet<>();
+		extraClasses.add(Policy.class);
+		extraClasses.add(Driver.class);
+		config.addExtraClasses(extraClasses);
+		
 		return KieServicesFactory.newKieServicesClient(config);
-		//
 	}
 }

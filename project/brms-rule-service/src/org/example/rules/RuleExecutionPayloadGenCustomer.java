@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.drools.core.command.impl.GenericCommand;
-import org.example.rules.RuleExecutionKieClient;
 import org.kie.api.KieServices;
 import org.kie.api.command.BatchExecutionCommand;
+import org.kie.api.command.Command;
 import org.kie.api.command.KieCommands;
 import org.kie.server.api.marshalling.Marshaller;
 import org.kie.server.api.marshalling.MarshallerFactory;
@@ -17,7 +17,7 @@ import com.redhat.test.brms.Customer;
 
 
 
-public class RuleExecutionXmlPayloadGen {
+public class RuleExecutionPayloadGenCustomer {
 	public static String marshallxml() {
 		
 		// Create your object here
@@ -43,23 +43,23 @@ public class RuleExecutionXmlPayloadGen {
 		KieCommands cmdFactory = KieServices.Factory.get().getCommands();
 		
 		// Command Setup
-		List<GenericCommand<?>> commands = new ArrayList<GenericCommand<?>>();
+		List<Command> commands = new ArrayList<Command>();
 		//agenda group focus
 		//commands.add((GenericCommand<?>) cmdFactory.newAgendaGroupSetFocus("test"));
 		
-		commands.add((GenericCommand<?>) cmdFactory.newInsert(c, "customer-identifier"));
-		commands.add((GenericCommand<?>) cmdFactory.newInsert(a1, "account1-identifier"));
-		commands.add((GenericCommand<?>) cmdFactory.newInsert(a2, "account2-identifier"));
-		commands.add((GenericCommand<?>) cmdFactory.newFireAllRules("fire-identifier"));
+		commands.add(cmdFactory.newInsert(c, "customer-identifier"));
+		commands.add(cmdFactory.newInsert(a1, "account1-identifier"));
+		commands.add(cmdFactory.newInsert(a2, "account2-identifier"));
+		commands.add(cmdFactory.newFireAllRules("fire-identifier"));
 		BatchExecutionCommand command = cmdFactory.newBatchExecution(commands, "defaultKieSession");
 		
 		// Generate XML payload string
-	   	Marshaller marshaller = MarshallerFactory.getMarshaller(MarshallingFormat.XSTREAM, RuleExecutionKieClient.class.getClassLoader());
+	   	Marshaller marshaller = MarshallerFactory.getMarshaller(MarshallingFormat.XSTREAM, RuleExecutionKieClientCustomer.class.getClassLoader());
 		String out = marshaller.marshall(command);
 		System.out.println(out);
 		
 		// Generate JSON payload string
-	   	Marshaller marshallerJson = MarshallerFactory.getMarshaller(MarshallingFormat.JSON, RuleExecutionKieClient.class.getClassLoader());
+	   	Marshaller marshallerJson = MarshallerFactory.getMarshaller(MarshallingFormat.JSON, RuleExecutionKieClientCustomer.class.getClassLoader());
 	   	String outJson = marshallerJson.marshall(command);
 		System.out.println("\n\n" + outJson);
   	
@@ -67,6 +67,6 @@ public class RuleExecutionXmlPayloadGen {
 	}
 	
 	public static void main(String arg[]) {
-		RuleExecutionXmlPayloadGen.marshallxml();
+		RuleExecutionPayloadGenCustomer.marshallxml();
 	}
 }

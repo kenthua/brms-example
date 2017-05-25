@@ -1,22 +1,28 @@
 JBoss BRMS Rule Services
 ========================
 
-Tested on BRMS 6.2
+Tested on BRMS 6.4
 
-KieClient created for XStream XML payload `RuleExecutionKieClient` calling BRMS Decision Server 
+KieClient for different scenarios
+Payload Generator for different scenarios
 
-JAXB Generator created, `RuleExecutionJAXBPayloadGenProcess`, however a client needs to be written.
+Sample `spreadsheet.xls` for Decision Table
 
 Client example from the following [article](https://access.redhat.com/solutions/1486613)  
+
 Valid HTTP HEADER required for BRMS 6.2 via stand alone REST client [article](https://access.redhat.com/solutions/2129781)  
 
-`RuleExecutionXmlPayloadGen` - Generates the XML payload expected by the JBoss BRMS Decision Server.
-The fact model you want to edit must be in the pom.xml, which means it needs to be in your local Maven repo as well.
+`X-KIE-ContentType = JSON`
+
+`X-KIE-ContentType = XSTREAM`
+
+`X-KIE-ContentType = XML`
+
 Execute the POJO, Run As -> Java Application
 
 Sample CoolStore Execution Server payload
 
-	<batch-execution lookup="defaultKieSession">
+	<batch-execution lookup="coolstore-stateful-kie-session">
 	  <insert out-identifier="sc-identifier" return-object="true" entry-point="DEFAULT">
 	    <com.redhat.coolstore.ShoppingCart>
 	      <cartItemPromoSavings>0.0</cartItemPromoSavings>
@@ -28,9 +34,19 @@ Sample CoolStore Execution Server payload
 	  </insert>
 	  <insert out-identifier="sci-identifier" return-object="true" entry-point="DEFAULT">
 	    <com.redhat.coolstore.ShoppingCartItem>
-	      <itemId>123</itemId>
-	      <name>Test</name>
-	      <price>10.0</price>
+	      <itemId>329299</itemId>
+	      <name>Red Fedora</name>
+	      <price>34.99</price>
+	      <promoSavings>0.0</promoSavings>
+	      <quantity>1</quantity>
+	      <shoppingCart reference="../../../insert/com.redhat.coolstore.ShoppingCart"/>
+	    </com.redhat.coolstore.ShoppingCartItem>
+	  </insert>
+	  <insert out-identifier="sci2-identifier" return-object="true" entry-point="DEFAULT">
+	    <com.redhat.coolstore.ShoppingCartItem>
+	      <itemId>165954</itemId>
+	      <name>16 oz. Vortex Tumbler</name>
+	      <price>6.0</price>
 	      <promoSavings>0.0</promoSavings>
 	      <quantity>1</quantity>
 	      <shoppingCart reference="../../../insert/com.redhat.coolstore.ShoppingCart"/>

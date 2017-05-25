@@ -9,7 +9,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
+				<version>3.6.1</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
@@ -18,13 +18,15 @@
 		</plugins>
 	</build>
 	<properties>
-		<jboss.brms.version>6.2.1.GA-redhat-2</jboss.brms.version> 
+		<jboss.brms.version>6.4.3.GA-redhat-2</jboss.brms.version> 
 	</properties>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>org.jboss.bom.brms</groupId>
-				<artifactId>jboss-brms-bpmsuite-bom</artifactId>
+				<!-- <artifactId>jboss-brms-bpmsuite-bom</artifactId> -->
+				<!-- https://issues.jboss.org/browse/RHBPMS-4356?page=com.atlassian.jira.plugin.system.issuetabpanels%3Aall-tabpanel -->
+				<artifactId>jboss-brms-bpmsuite-platform-bom</artifactId>
 				<type>pom</type>
 				<scope>import</scope>
 				<version>${jboss.brms.version}</version>
@@ -72,6 +74,7 @@
 			<artifactId>iteration</artifactId>
 			<version>1.0</version>
 		</dependency>
+
 	</dependencies>
 
 </project>
