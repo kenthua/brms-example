@@ -43,6 +43,12 @@ public class RuleExecutionKieClientCoolstore {
 
 		ShoppingCart sc = new ShoppingCart();
 
+		sc.setCartItemPromoSavings(0d);
+		sc.setCartItemTotal(0d);
+		sc.setCartTotal(0d);
+		sc.setShippingPromoSavings(0d);
+		sc.setShippingTotal(0d);
+		
 		sci.setItemId("329299");
 		sci.setName("Red Fedora");
 		sci.setPrice(34.99);

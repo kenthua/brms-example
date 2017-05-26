@@ -29,8 +29,8 @@ public class RuleExecutionKieClientInsurance {
 	public static final String USERNAME = "user";
 	public static final String PASSWORD = "passw0rd";
 	public static final String SERVER_URL = "http://localhost:8080/kie-server/services/rest/server";
-	public static final String CONTAINER = "com.redhat.demos:DecisionPolicy:1.0";
-	public static final String KIESESSION = "defaultKieSession";
+	public static final String CONTAINER = "com.redhat.demos:insurance:1.0.1";
+	public static final String KIESESSION = "defaultKieStatefulSession";
 
 	public static void main(String args[])  {
 		
@@ -42,10 +42,16 @@ public class RuleExecutionKieClientInsurance {
 		Driver driver = new Driver();
 		Policy policy = new Policy();
 		
+		policy.applyDiscount(0);
+		policy.setBasePrice(0);
+		policy.setDiscountPercent(0);
+		policy.setApproved(false);
+		policy.setType("COMPREHENSIVE");
+		
+		driver.setName("John Test");
 		driver.setAge(25);
 		driver.setLocationRiskProfile("LOW");
 		driver.setPriorClaims(0);
-		policy.setType("COMPREHENSIVE");
 
 		// KieCommands provides more commands than "CommandFactory.", such as newAgendaGroupSetFocus
 		KieCommands cmdFactory = KieServices.Factory.get().getCommands();

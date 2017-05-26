@@ -51,6 +51,7 @@ public class Policy {
     }
 
     public void applyDiscount(int discount) {
+    	discountPercent = 0;
         discountPercent += discount;
     }
     public int getBasePrice() {
